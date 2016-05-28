@@ -1,0 +1,5 @@
+vendor/*
+config.yml
+composer.phar
+inbox/
+outbox/

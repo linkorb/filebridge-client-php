@@ -1,0 +1,32 @@
+{
+    "name": "linkorb/filebridge-client-php",
+    "description": "FileBridge api client",
+    "homepage": "https://github.com/linkorb/filebridge-client-php",
+    "license": "MIT",
+    "type": "library",
+
+    "require": {
+        "php": ">=5.3",
+        "guzzlehttp/guzzle": "^6.0"
+    },
+
+    "require-dev": {
+        "ext-curl": "*"
+    },
+
+    "keywords": [ "linkorb", "filebridge", "php"],
+
+    "authors": [
+        {
+            "name": "LinkORB",
+            "email": "engineering@linkorb.com",
+            "role": "Development"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "FileBridge\\Client\\": "src/"
+        }
+    }
+}
