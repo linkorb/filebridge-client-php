@@ -13,8 +13,19 @@ try {
     $files = $client->getFiles($accountName, $channelName);
     
     foreach ($files as $file) {
-        $client->download($accountName, $channelName, $file->getKey(), 'inbox/' . $file->getName());
+        $filename = 'inbox/' . $file->getName();
+        $client->download($accountName, $channelName, $file->getKey(), $filename);
         echo "File: " . $file->getKey() . ': ' . $file->getName() . "\n";
+        if ($file->getProperties()) {
+            echo "   With properties\n";
+            file_put_contents(
+                $filename . '.properties',
+                json_encode(
+                    $file->getProperties(),
+                    JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES
+                )
+            );
+        }
     }
 } catch (Exception $e) {
     echo "Exception " . $e->getMessage() . "\n";
