@@ -14,10 +14,17 @@ try {
     
     
     foreach ($filenames as $filename) {
-        $key = null;
-        echo "Uploading $filename\n";
-        $key = $client->upload($accountName, $channelName, $filename);
-        echo "   * Key: " . $key . "\n";
+        if (substr($filename, -11)!='.properties') {
+            $key = null;
+            echo "Uploading $filename\n";
+            $metadata = false;
+            if (file_exists($filename . '.properties')) {
+                $metadata = $filename . '.properties';
+                echo "   * Metadata: " . $metadata . "\n";
+            }
+            $key = $client->upload($accountName, $channelName, $filename, $metadata);
+            echo "   * Key: " . $key . "\n";
+        }
     }
 } catch (Exception $e) {
     echo "Exception " . $e->getMessage() . "\n";

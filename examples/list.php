@@ -14,6 +14,9 @@ try {
     
     foreach ($files as $file) {
         echo "File: " . $file->getKey() . ': ' . $file->getName() . "\n";
+        if ($file->getProperties()) {
+            echo "   " . json_encode($file->getProperties()) . "\n";
+        }
     }
 } catch (Exception $e) {
     echo "Exception " . $e->getMessage() . "\n";

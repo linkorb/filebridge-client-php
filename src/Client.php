@@ -40,6 +40,9 @@ class Client
             $filename = $this->sanitizeFilename($filename);
             $file->setName($filename);
             $file->setKey($fileData['key']);
+            if (isset($fileData['properties'])) {
+                $file->setProperties($fileData['properties']);
+            }
             $files[] = $file;
         }
 
@@ -66,7 +69,7 @@ class Client
         file_put_contents($filename, $res->getBody());
     }
     
-    public function upload($accountName, $channelName, $filename)
+    public function upload($accountName, $channelName, $filename, $metadata = null)
     {
         $url = $this->baseUrl.'/api/v1/'.$accountName . '/' . $channelName . '/upload';
 
@@ -78,14 +81,25 @@ class Client
             ]
         ];
         $fields = [];
-        $options['multipart'] = [
-            [
-                'name'     => 'file',
-                'contents' => file_get_contents($filename),
-                'filename' => basename($filename)
-            ]
         
+        // construct multipart files array
+        $files = [];
+        $files[] = [
+            'name'     => 'file',
+            'contents' => file_get_contents($filename),
+            'filename' => basename($filename)
         ];
+        
+        if ($metadata) {
+            $files[] = [
+                'name'     => 'metadata',
+                'contents' => file_get_contents($metadata),
+                'filename' => basename($metadata)
+            ];
+        }
+
+        $options['multipart'] = $files;
+        
         $res = $this->httpClient->request("POST", $url, $options);
         if ($res->getStatusCode() != 200) {
             throw new \Exception(json_decode($res->getBody(), true)['error'], $res->getStatusCode());

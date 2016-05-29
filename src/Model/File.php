@@ -6,6 +6,7 @@ class File
 {
     private $key;
     private $name;
+    private $properties = null;
     
     
     public function getKey()
@@ -29,6 +30,18 @@ class File
         $this->name = $name;
         return $this;
     }
+    
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+    
+    public function setProperties($properties)
+    {
+        $this->properties = $properties;
+        return $this;
+    }
+    
     
     
 }
